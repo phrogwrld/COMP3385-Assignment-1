@@ -1,8 +1,7 @@
 <?php
 
-enum Role
-{
-  case ResearchGroupManager;
-  case ResearchStudyManager;
-  case Researcher;
+enum Role {
+	case ResearchGroupManager;
+	case ResearchStudyManager;
+	case Researcher;
 }

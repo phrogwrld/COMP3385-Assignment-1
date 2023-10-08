@@ -7,131 +7,111 @@ use App\Service\Database;
 use IRepository;
 use PDO;
 
-final class UserRepository implements IRepository
-{
-  private Database $database;
+final class UserRepository implements IRepository {
+	private Database $database;
 
-  public function __construct(Database $database)
-  {
-    $this->database = $database;
-  }
+	public function __construct(Database $database) {
+		$this->database = $database;
+	}
 
-  /**
-   * Creates a new user in the database.
-   *
-   * @param User $user The user to create.
-   *
-   * @return bool True if the user was created successfully, false otherwise.
-   */
-  public function create(User $user): bool
-  {
+	/**
+	 * Creates a new user in the database.
+	 *
+	 * @param User $user The user to create.
+	 *
+	 * @return bool True if the user was created successfully, false otherwise.
+	 */
+	public function create(User $user): bool {
+		$sql = 'INSERT INTO users(username, password, email) VALUES (?, ?, ?) ';
+		$stmt = $this->database->getConnection()->prepare($sql);
 
-    $sql = "INSERT INTO users(username, password, email) VALUES (?, ?, ?) ";
-    $stmt = $this->database->getConnection()->prepare($sql);
+		$username = $user->getUsername();
+		$email = $user->getEmail();
+		$password = $user->getPassword();
 
-    $username = $user->getUsername();
-    $email = $user->getEmail();
-    $password = $user->getPassword();
+		$stmt->execute([$username, $password, $email]);
 
-    $stmt->execute([$username, $password, $email]);
+		return $stmt->rowCount() > 0;
+	}
 
-    return $stmt->rowCount() > 0;
-  }
+	/**
+	 * Finds a user by their ID.
+	 *
+	 * @param int $id The ID of the user to find.
+	 *
+	 * @return User|null The user, or null if the user was not found.
+	 */
+	public function find(int $id): ?User {
+		$sql = 'SELECT * FROM users WHERE id = ?';
+		$stmt = $this->database->getConnection()->prepare($sql);
 
-  /**
-   * Finds a user by their ID.
-   *
-   * @param int $id The ID of the user to find.
-   *
-   * @return User|null The user, or null if the user was not found.
-   */
-  public function find(int $id): ?User
-  {
+		$stmt->execute([$id]);
 
-    $sql = "SELECT * FROM users WHERE id = ?";
-    $stmt = $this->database->getConnection()->prepare($sql);
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $stmt->execute([$id]);
+		if (!$user) {
+			return null;
+		}
 
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+		return new User($user['username'], $user['password'], $user['email'], $user['id']);
+	}
 
-    if (!$user) {
-      return null;
-    }
+	/**
+	 * Finds all users.
+	 *
+	 * @return User[] An array of users.
+	 */
+	public function findAll(): array {
+		$sql = 'SELECT * FROM users';
+		$stmt = $this->database->getConnection()->prepare($sql);
 
-    return new User(
-      $user['username'],
-      $user['password'],
-      $user['email'],
-      $user['id']
-    );
-  }
+		$stmt->execute();
 
-  /**
-   * Finds all users.
-   *
-   * @return User[] An array of users.
-   */
-  public function findAll(): array
-  {
-    $sql = "SELECT * FROM users";
-    $stmt = $this->database->getConnection()->prepare($sql);
+		$users = [];
 
-    $stmt->execute();
+		foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $user) {
+			$users[] = new User($user['username'], $user['password'], $user['email'], $user['id']);
+		}
 
-    $users = [];
+		return $users;
+	}
 
-    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $user) {
-      $users[] = new User(
-        $user['username'],
-        $user['password'],
-        $user['email'],
-        $user['id']
-      );
-    }
+	/**
+	 * Updates a user.
+	 *
+	 * @param User $user The user to update.
+	 *
+	 * @return bool True if the user was updated successfully, false otherwise.
+	 */
+	public function update(User $user): bool {
+		$sql = 'UPDATE users SET username = ?, password = ?, email = ? WHERE id = ?';
+		$stmt = $this->database->getConnection()->prepare($sql);
 
-    return $users;
-  }
+		$username = $user->getUsername();
+		$email = $user->getEmail();
+		$password = $user->getPassword();
+		$id = $user->getId();
 
-  /**
-   * Updates a user.
-   *
-   * @param User $user The user to update.
-   *
-   * @return bool True if the user was updated successfully, false otherwise.
-   */
-  public function update(User $user): bool
-  {
+		$stmt->execute([$username, $password, $email, $id]);
 
-    $sql = "UPDATE users SET username = ?, password = ?, email = ? WHERE id = ?";
-    $stmt = $this->database->getConnection()->prepare($sql);
+		return $stmt->rowCount() > 0;
+	}
 
-    $username = $user->getUsername();
-    $email = $user->getEmail();
-    $password = $user->getPassword();
-    $id = $user->getId();
+	/**
+	 * Deletes a user.
+	 *
+	 * @param User $user The user to delete.
+	 *
+	 * @return bool True if the user was deleted successfully, false otherwise.
+	 */
+	public function delete(User $user): bool {
+		$sql = 'DELETE FROM users WHERE id = ?';
+		$stmt = $this->database->getConnection()->prepare($sql);
 
-    $stmt->execute([$username, $password, $email, $id]);
+		$id = $user->getId();
 
-    return $stmt->rowCount() > 0;
-  }
+		$stmt->execute([$id]);
 
-  /**
-   * Deletes a user.
-   *
-   * @param User $user The user to delete.
-   *
-   * @return bool True if the user was deleted successfully, false otherwise.
-   */
-  public function delete(User $user): bool
-  {
-    $sql = "DELETE FROM users WHERE id = ?";
-    $stmt = $this->database->getConnection()->prepare($sql);
-
-    $id = $user->getId();
-
-    $stmt->execute([$id]);
-
-    return $stmt->rowCount() > 0;
-  }
+		return $stmt->rowCount() > 0;
+	}
 }
