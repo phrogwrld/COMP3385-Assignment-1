@@ -1,7 +1,9 @@
 <?php
 
-enum Role {
-	case ResearchGroupManager;
-	case ResearchStudyManager;
-	case Researcher;
+namespace App\Helpers;
+
+enum Role: string {
+	case ResearchGroupManager = 'researchgroupmanager';
+	case ResearchStudyManager = 'researchstudymanager';
+	case Researcher = 'researcher';
 }
