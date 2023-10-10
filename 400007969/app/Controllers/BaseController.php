@@ -2,6 +2,7 @@
 use App\Config\Config;
 use App\Libs\Validators\IValidator;
 use App\Service\Database;
+use App\Service\Session;
 
 /**
  * Abstract base controller class.
@@ -9,6 +10,7 @@ use App\Service\Database;
 abstract class BaseController {
 	protected $view;
 	protected $model;
+	protected Session $session;
 	/**
 	 * The database connection.
 	 *
@@ -39,6 +41,7 @@ abstract class BaseController {
 			Config::getDatabasePassword(),
 			Config::getDatabaseName(),
 		);
+		$this->session = new Session();
 	}
 
 	public function render() {

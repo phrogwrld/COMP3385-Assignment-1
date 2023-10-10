@@ -1,13 +1,13 @@
 <?php
 use App\Models\Entity\User;
 use App\Models\Repository\UserRepository;
-use App\Service\Validator\AuthValidator;
+use App\Service\Validator\RegisterValidator;
 
-final class AuthController extends BaseController {
+final class RegisterController extends BaseController {
 	private UserRepository $userRepository;
 
 	public function __construct() {
-		parent::__construct(new AuthValidator($this->getDatabase()));
+		parent::__construct(new RegisterValidator($this->getDatabase()));
 		$this->userRepository = new UserRepository($this->getDatabase());
 	}
 
@@ -32,6 +32,9 @@ final class AuthController extends BaseController {
 		$user = new User(null, $username, $email, $pass);
 
 		$this->userRepository->create($user);
+
+		$this->session->setValue('username', $username);
+		$this->session->setValue('email', $email);
 
 		$this->redirect('/login');
 	}

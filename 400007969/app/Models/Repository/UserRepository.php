@@ -53,7 +53,29 @@ final class UserRepository implements IRepository {
 			return null;
 		}
 
-		return new User($user['username'], $user['password'], $user['email'], $user['id']);
+		return new User($user['id'] ,$user['username'],  $user['email'], $user['password']);
+	}
+
+	/**
+	 * Finds a user by their email.
+	 *
+	 * @param string $email The email of the user to find.
+	 *
+	 * @return User|null The user, or null if the user was not found.
+	 */
+	public function findByEmail(string $email): ?User {
+		$sql = 'SELECT * FROM users WHERE email = ?';
+		$stmt = $this->database->getConnection()->prepare($sql);
+
+		$stmt->execute([$email]);
+
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		if (!$user) {
+			return null;
+		}
+
+		return new User($user['id'] ,$user['username'],  $user['email'], $user['password']);
 	}
 
 	/**
@@ -70,7 +92,7 @@ final class UserRepository implements IRepository {
 		$users = [];
 
 		foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $user) {
-			$users[] = new User($user['username'], $user['password'], $user['email'], $user['id']);
+			$users[] = new User($user['id'] ,$user['username'],  $user['email'], $user['password']);
 		}
 
 		return $users;

@@ -3,7 +3,7 @@ namespace App\Service\Validator;
 use App\Libs\Validators\BaseValidator;
 use App\Service\Database;
 
-final class AuthValidator extends BaseValidator {
+final class RegisterValidator extends BaseValidator {
 	private Database $database;
 
 	public function __construct(Database $database) {
@@ -25,4 +25,5 @@ final class AuthValidator extends BaseValidator {
 
 		return $query->rowCount() === 0;
 	}
+
 }
