@@ -72,4 +72,8 @@ final class Config {
 	public static function getDatabasePort(): int {
 		return self::$database['port'];
 	}
+
+	public static function getViewPath(): string {
+		return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Views';
+	}
 }

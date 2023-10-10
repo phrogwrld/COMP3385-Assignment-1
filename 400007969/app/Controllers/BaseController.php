@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Controllers;
+
 use App\Config\Config;
 use App\Libs\Validators\IValidator;
 use App\Service\Database;
@@ -45,7 +48,16 @@ abstract class BaseController {
 	}
 
 	public function render() {
-		$this->view->render();
+		$viewName = basename(get_called_class()) . '.php';
+		$viewName = str_replace('Controller', '', $viewName);
+		$viewPath = Config::getViewPath() . DIRECTORY_SEPARATOR . $viewName;
+
+		if (!file_exists($viewPath)) {
+			trigger_error('The view `' . $viewName . '` does not exist.', E_USER_ERROR);
+			exit();
+		}
+
+		require_once $viewPath;
 	}
 
 	/**

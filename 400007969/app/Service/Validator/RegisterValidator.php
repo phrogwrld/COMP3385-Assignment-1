@@ -25,5 +25,4 @@ final class RegisterValidator extends BaseValidator {
 
 		return $query->rowCount() === 0;
 	}
-
 }

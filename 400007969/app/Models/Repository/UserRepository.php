@@ -53,7 +53,7 @@ final class UserRepository implements IRepository {
 			return null;
 		}
 
-		return new User($user['id'] ,$user['username'],  $user['email'], $user['password']);
+		return new User($user['id'], $user['username'], $user['email'], $user['password']);
 	}
 
 	/**
@@ -75,7 +75,7 @@ final class UserRepository implements IRepository {
 			return null;
 		}
 
-		return new User($user['id'] ,$user['username'],  $user['email'], $user['password']);
+		return new User($user['id'], $user['username'], $user['email'], $user['password']);
 	}
 
 	/**
@@ -92,7 +92,7 @@ final class UserRepository implements IRepository {
 		$users = [];
 
 		foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $user) {
-			$users[] = new User($user['id'] ,$user['username'],  $user['email'], $user['password']);
+			$users[] = new User($user['id'], $user['username'], $user['email'], $user['password']);
 		}
 
 		return $users;

@@ -11,8 +11,7 @@ final class LoginValidator extends BaseValidator {
 	}
 
 	protected function isValid(array $values): bool {
-		return $this->isValidEmail($values['Email']) &&
-			$this->isPasswordExists($values['Password']);
+		return $this->isValidEmail($values['Email']) && $this->isPasswordExists($values['Password']);
 	}
 
 	private function isPasswordExists($password): bool {

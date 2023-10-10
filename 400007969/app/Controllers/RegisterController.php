@@ -1,4 +1,8 @@
 <?php
+
+namespace App\Controllers;
+
+use App\Controllers\BaseController;
 use App\Models\Entity\User;
 use App\Models\Repository\UserRepository;
 use App\Service\Validator\RegisterValidator;
