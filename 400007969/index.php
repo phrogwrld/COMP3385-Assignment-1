@@ -1,7 +1,7 @@
 <?php
 use App\Controllers\DashboardController;
 
-require 'autoload.php';
+require './app/autoload.php';
 
 $dashboardController = new DashboardController();
 $dashboardController->render();
