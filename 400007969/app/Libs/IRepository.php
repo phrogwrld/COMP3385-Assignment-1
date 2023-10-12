@@ -2,6 +2,9 @@
 /**
  * An interface for repositories. A repository is responsible for managing a model (Simple CRUD).
  */
+
+namespace App\Libs;
+
 interface IRepository {
 	/**
 	 * Create a new model.

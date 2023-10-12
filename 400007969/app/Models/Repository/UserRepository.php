@@ -2,9 +2,10 @@
 
 namespace App\Models\Repository;
 
+use App\Libs\IRepository;
 use App\Models\Entity\User;
 use App\Service\Database;
-use IRepository;
+
 use PDO;
 
 final class UserRepository implements IRepository {
@@ -21,7 +22,10 @@ final class UserRepository implements IRepository {
 	 *
 	 * @return bool True if the user was created successfully, false otherwise.
 	 */
-	public function create(User $user): bool {
+	public function create(object $user): bool {
+		if (!$user instanceof User) {
+			throw new \InvalidArgumentException('The user must be an instance of User.');
+		}
 		$sql = 'INSERT INTO users(username, password, email) VALUES (?, ?, ?) ';
 		$stmt = $this->database->getConnection()->prepare($sql);
 
@@ -105,7 +109,10 @@ final class UserRepository implements IRepository {
 	 *
 	 * @return bool True if the user was updated successfully, false otherwise.
 	 */
-	public function update(User $user): bool {
+	public function update(object $user): bool {
+		if (!$user instanceof User) {
+			throw new \InvalidArgumentException('The user must be an instance of User.');
+		}
 		$sql = 'UPDATE users SET username = ?, password = ?, email = ? WHERE id = ?';
 		$stmt = $this->database->getConnection()->prepare($sql);
 
@@ -126,7 +133,10 @@ final class UserRepository implements IRepository {
 	 *
 	 * @return bool True if the user was deleted successfully, false otherwise.
 	 */
-	public function delete(User $user): bool {
+	public function delete(object $user): bool {
+		if (!$user instanceof User) {
+			throw new \InvalidArgumentException('The user must be an instance of User.');
+		}
 		$sql = 'DELETE FROM users WHERE id = ?';
 		$stmt = $this->database->getConnection()->prepare($sql);
 
