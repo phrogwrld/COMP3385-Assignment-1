@@ -44,6 +44,25 @@ final class Session {
 	}
 
 	/**
+	 * Checks if a session variable exists.
+	 *
+	 * @param string $key The name of the session variable.
+	 * @return bool Whether or not the session variable exists.
+	 */
+	public function hasValue($key) {
+		return isset($_SESSION[$key]);
+	}
+
+	/**
+	 * Removes a session variable.
+	 *
+	 * @param string $key The name of the session variable.
+	 */
+	public function removeValue($key) {
+		unset($_SESSION[$key]);
+	}
+
+	/**
 	 * Destroys the session.
 	 */
 	public function destroySession() {

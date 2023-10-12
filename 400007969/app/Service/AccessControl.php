@@ -9,17 +9,16 @@ use App\Service\Session;
  * A class to manage access to specific user based on their roles.
  */
 final class AccessControl {
-
 	/**
 	 * Session.
-	 * 
+	 *
 	 * @var Session
 	 */
 	private Session $session;
 
 	/**
 	 * Constructs a AccessControl Instance.
-	 * 
+	 *
 	 * @param Session $session
 	 */
 	public function __construct(Session $session) {
@@ -63,5 +62,21 @@ final class AccessControl {
 		if (!$this->hasRole($role)) {
 			throw new \Exception('User does not have the required role');
 		}
+	}
+
+	/**
+	 * Requires that the user has one of the specified roles.
+	 *
+	 * @param Role[] $roles The roles to require.
+	 * @throws \Exception If the user does not have one of the specified roles.
+	 */
+	public function requireRoles(array $roles): void {
+		foreach ($roles as $role) {
+			if ($this->hasRole($role)) {
+				return;
+			}
+		}
+
+		throw new \Exception('User does not have one of the required roles');
 	}
 }
