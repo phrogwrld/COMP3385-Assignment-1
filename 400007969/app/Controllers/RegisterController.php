@@ -6,12 +6,16 @@ use App\Controllers\BaseController;
 use App\Models\Entity\User;
 use App\Models\Repository\UserRepository;
 use App\Service\Validator\RegisterValidator;
+use App\Service\Database;
 
 final class RegisterController extends BaseController {
 	private UserRepository $userRepository;
 
+	private Database $database;
+
 	public function __construct() {
-		parent::__construct(new RegisterValidator($this->getDatabase()));
+		parent::__construct();
+		$this->setValidator(new RegisterValidator($this->getDatabase()));
 		$this->userRepository = new UserRepository($this->getDatabase());
 	}
 

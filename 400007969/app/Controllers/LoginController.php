@@ -10,7 +10,8 @@ final class LoginController extends BaseController {
 	private UserRepository $userRepository;
 
 	public function __construct() {
-		parent::__construct(new LoginValidator($this->getDatabase()));
+		parent::__construct();
+		$this->setValidator(new LoginValidator($this->getDatabase()));
 		$this->userRepository = new UserRepository($this->getDatabase());
 	}
 

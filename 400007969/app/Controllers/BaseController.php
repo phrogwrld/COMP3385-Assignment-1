@@ -33,10 +33,10 @@ abstract class BaseController {
 	 *
 	 * @param IValidator|null $validator The validator object.
 	 */
-	public function __construct(?IValidator $validator = null) {
+	public function __construct() {
 		// $this->view = $view;
 		// $this->model = $model;
-		$this->validator = $validator;
+		$this->validator = null;
 		$this->database = new Database(
 			Config::getDatabaseHost(),
 			Config::getDatabasePort(),
