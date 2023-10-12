@@ -10,7 +10,7 @@ final class LoginValidator extends BaseValidator {
 		$this->database = $database;
 	}
 
-	protected function isValid(array $values): bool {
+	public function isValid(array $values): bool {
 		return $this->isValidEmail($values['Email']) && $this->isPasswordExists($values['Password']);
 	}
 
