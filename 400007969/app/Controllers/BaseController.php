@@ -67,7 +67,8 @@ abstract class BaseController {
 	 *
 	 * @return void
 	 */
-	public function redirect($url) {
+	public function redirect($url, $vars = []) {
+		$url = $url . '?' . http_build_query($vars);
 		header('Location: ' . $url);
 		exit();
 	}
