@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Register</title>
+  <title>Login</title>
   <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -13,28 +13,44 @@
       <a class="flex items-center" href="/">
         <img class="w-8 h-8" src="" alt="logo_here">
       </a>
-      <div>
-        <p>logout</p>
-      </div>
+      <form id="loginForm" action="login.php" method="GET">
+        <input type="hidden" name="login" value="1">
+        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg">Login</button>
+      </form>
     </div>
 
     <div class="container flex flex-1 mx-auto p-5 text-white justify-center items-center">
       <div class="flex-1 flex flex-row flex-wrap -mx-4 justify-center items-center box-border">
         <div class="flex relative min-w-[600px]">
           <div class="flex relative rounded-lg bg-slate-500 p-10 w-full basis-full">
-            <form class="flex flex-col mx-auto w-[422px]">
+            <form method="POST" action="/400007969/login.php" class="flex flex-col mx-auto w-[422px]">
               <div class="flex flex-auto mb-7 justify-end">
-                <label class="flex pr-2 min-w-[95px] font-semibold items-center">Username: </label>
+                <label class="flex pr-2 min-w-[95px] font-semibold items-center">Email: </label>
                 <div class="flex flex-col w-full relative">
-                  <input class="flex-1 h-10 py-2 px-3 rounded-lg text-black w-full border border-blue-100 focus:border-blue-200 focus:ring focus:outline-none" />
+                  <input class="flex-1 h-10 py-2 px-3 rounded-lg text-black w-full border border-blue-100 focus:border-blue-200 focus:ring focus:outline-none" name="email" />
                 </div>
               </div>
 
               <div class="flex flex-auto mb-7 justify-end">
                 <label class="flex pr-2 min-w-[95px] font-semibold items-center">Password: </label>
                 <div class="flex flex-col w-full relative">
-                  <input class="flex-1 h-10 py-2 px-3 rounded-lg text-black w-full border border-blue-100 focus:border-blue-200 focus:ring focus:outline-none" />
+                  <input class="flex-1 h-10 py-2 px-3 rounded-lg text-black w-full border border-blue-100 focus:border-blue-200 focus:ring focus:outline-none" name="password" />
+                  <span class="text-red-500"><?php
+                  // Show errors if there are any
+                  $errors = $_GET['errors'] ?? [];
+
+                  foreach ($errors as $error) {
+                  	echo $error . '<br>';
+                  }
+                  ?></span>
                 </div>
+              </div>
+
+              <div class="flex justify-between">
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg">
+                  Submit
+                </button>
+                <p class="text-blue-300 underline"><a href="/400007969/register.php">Need to register?</a></p>
               </div>
             </form>
           </div>

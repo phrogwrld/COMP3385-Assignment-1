@@ -13,9 +13,10 @@
       <a class="flex items-center" href="/">
         <img class="w-8 h-8" src="" alt="logo_here">
       </a>
-      <div>
-        <p>logout</p>
-      </div>
+      <form id="logoutForm" action="logout.php" method="POST">
+        <input type="hidden" name="logout" value="1">
+        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg">Logout</button>
+      </form>
     </div>
 
     <div class="container flex-1 flex flex-col mx-auto max-w-4xl p-5 text-white justify-center items-center">
@@ -33,18 +34,16 @@
       <hr class="my-3 w-full border-gray-500 opacity-10">
 
       <div class="grid grid-cols-1 sm:grid-cols-2 mt-5 w-full gap-10 mx-auto justify-center">
-        <div class="flex flex-col rounded-md border border-gray-500 bg-gray-600/50 cursor-pointer p-10">
-          Create New Study
-        </div>
-        <div class="flex flex-col rounded-md border border-gray-500 bg-gray-600/50 cursor-pointer p-10">
-          View All Studies
-        </div>
-        <div class="flex flex-col rounded-md border border-gray-500 bg-gray-600/50 cursor-pointer p-10">
-          Delete Previous Study
-        </div>
-        <div class="flex flex-col rounded-md border border-gray-500 bg-gray-600/50 cursor-pointer p-10">
-          Create New Researchers
-        </div>
+       <?php // Show different options based on the user's role
+// Show different options based on the user's role
+// Show different options based on the user's role
+       // Show different options based on the user's role
+       // Show different options based on the user's role
+       foreach ($options[$role->value] as $option) {
+       	echo '<div class="flex flex-col rounded-md border border-gray-500 bg-gray-600/50 cursor-pointer p-10">' .
+       		$option .
+       		'</div>';
+       } ?>
       </div>
     </div>
     <footer class="flex border-t border-gray-500 bg-gray-600/50 justify-center items-center">
