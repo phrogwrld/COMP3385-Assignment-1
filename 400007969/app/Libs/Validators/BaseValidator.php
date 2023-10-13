@@ -36,7 +36,7 @@ abstract class BaseValidator implements IValidator {
 			return false;
 		}
 
-		if (!ctype_upper($password) && !ctype_digit($password)) {
+		if (!preg_match('/[A-Z]/', $password) && !preg_match('/\d/', $password)) {
 			$this->errors['password_uppercase_or_digit'] = 'Password must contain at least one uppercase letter or digit.';
 			return false;
 		}
