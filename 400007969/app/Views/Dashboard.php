@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Register</title>
+  <title>Dashboard</title>
   <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -23,14 +23,10 @@
       <div class="grid grid-cols-1 w-full my-8">
         <div class="flex flex-row justify-between">
           <div class="flex flex-col">
-            <p class="font-bold"><?php echo $role->value;?>: </p><span id="researcher"><?php
-              echo $username;
-            ?></span>
+            <p class="font-bold"><?php echo $role->value; ?>: </p><span id="researcher"><?php echo $username; ?></span>
           </div>
           <div class="flex flex-col">
-            <p class="font-bold">Email: </p><span id="researcher-email"><?php
-              echo $email;
-            ?></span>
+            <p class="font-bold">Email: </p><span id="researcher-email"><?php echo $email; ?></span>
           </div>
         </div>
       </div>
@@ -39,11 +35,14 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 mt-5 w-full gap-10 mx-auto justify-center">
        <?php // Show different options based on the user's role
-       foreach ($options[$role->value] as $option) {
-       	echo '<div class="flex flex-col rounded-md border border-gray-500 bg-gray-600/50 cursor-pointer p-10">' .
-       		$option .
-       		'</div>';
-       } ?>
+        foreach ($options[$role->value] as $option => $url) {
+          echo '<a href="/400007969' . $url . '"> ';
+          echo '<div class="flex flex-col rounded-md border border-gray-500 bg-gray-600/50 cursor-pointer p-10">' .
+            $option .
+            '</div>';
+          echo '</a>';
+        } 
+       ?>
       </div>
     </div>
     <footer class="flex border-t border-gray-500 bg-gray-600/50 justify-center items-center">

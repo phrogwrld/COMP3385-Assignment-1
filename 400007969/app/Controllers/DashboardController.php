@@ -40,13 +40,17 @@ final class DashboardController extends BaseController {
 		$username = $this->session->getValue('username');
 
 		$options = [
-			Role::Researcher->value => ['View All Studies'],
-			Role::ResearchStudyManager->value => ['View All Studies', 'Create New Study', 'Delete Previous Study'],
+			Role::Researcher->value => ['View All Studies' => '/viewAllStudies.php'],
+			Role::ResearchStudyManager->value => [
+				'View All Studies' => '/viewAllStudies.php',
+				'Create New Study' => '/createStudy.php',
+				'Delete Previous Study' => '/deleteStudy.php',
+			],
 			Role::ResearchGroupManager->value => [
-				'View All Studies',
-				'Create New Study',
-				'Delete Previous Study',
-				'Create New Researchers',
+				'View All Studies' => '/viewAllStudies.php',
+				'Create New Study' => '/createStudy.php',
+				'Delete Previous Study' => '/deleteStudy.php',
+				'Create New Researchers' => '/createResearcher.php',
 			],
 		];
 
