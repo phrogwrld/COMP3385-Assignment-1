@@ -36,6 +36,8 @@ final class DashboardController extends BaseController {
 		}
 
 		$role = $this->accessControl->getRole();
+		$email = $this->session->getValue('email');
+		$username = $this->session->getValue('username');
 
 		$options = [
 			Role::Researcher->value => ['View All Studies'],

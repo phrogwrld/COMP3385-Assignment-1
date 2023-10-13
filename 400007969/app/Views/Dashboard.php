@@ -23,10 +23,14 @@
       <div class="grid grid-cols-1 w-full my-8">
         <div class="flex flex-row justify-between">
           <div class="flex flex-col">
-            <p class="font-bold">Researcher: </p><span id="researcher"></span>
+            <p class="font-bold"><?php echo $role->value;?>: </p><span id="researcher"><?php
+              echo $username;
+            ?></span>
           </div>
           <div class="flex flex-col">
-            <p class="font-bold">Email: </p><span id="researcher-email"></span>
+            <p class="font-bold">Email: </p><span id="researcher-email"><?php
+              echo $email;
+            ?></span>
           </div>
         </div>
       </div>
