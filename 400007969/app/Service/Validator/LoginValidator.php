@@ -11,14 +11,25 @@ final class LoginValidator extends BaseValidator {
 	}
 
 	public function isValid(array $values): bool {
-		return $this->isValidEmail($values['Email']) && $this->isPasswordExists($values['Password']);
+		return $this->isValidEmail($values['Email']) && $this->isPasswordExists($values['Email'], $values['Password']);
 	}
 
-	private function isPasswordExists($password): bool {
-		$sql = 'SELECT * FROM users WHERE password = ?';
+	private function isPasswordExists($email, $password): bool {
+		if ($this->isEmpty($password)) {
+			$this->errors['Password'] = 'Password cannot be empty.';
+			return false;
+		}
+		$sql = 'SELECT password FROM users WHERE email = ?';
 		$query = $this->database->getConnection()->prepare($sql);
-		$query->execute([$password]);
+		$query->execute([$email]);
 
-		return $query->rowCount() === 0;
+		$hash = $query->fetchColumn();
+
+		if (password_verify($password, $hash)) {
+			return true;
+		} else {
+			$this->errors['Password'] = 'Password is incorrect.';
+			return false;
+		}
 	}
 }
