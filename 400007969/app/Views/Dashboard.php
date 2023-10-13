@@ -35,10 +35,6 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 mt-5 w-full gap-10 mx-auto justify-center">
        <?php // Show different options based on the user's role
-// Show different options based on the user's role
-// Show different options based on the user's role
-       // Show different options based on the user's role
-       // Show different options based on the user's role
        foreach ($options[$role->value] as $option) {
        	echo '<div class="flex flex-col rounded-md border border-gray-500 bg-gray-600/50 cursor-pointer p-10">' .
        		$option .

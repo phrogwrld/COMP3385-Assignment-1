@@ -20,6 +20,11 @@ final class RegisterController extends BaseController {
 	}
 
 	public function register() {
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+			$this->render();
+			return;
+		}
+
 		$username = $_POST['username'];
 		$email = $_POST['email'];
 		$password = $_POST['password'];
@@ -31,19 +36,19 @@ final class RegisterController extends BaseController {
 				'Password' => $password,
 			])
 		) {
-			$this->redirect('/register');
+			$this->redirect('register.php', ['errors' => $this->validator->getErrors()]);
 			return;
 		}
 
-		$pass = password_hash($password, PASSWORD_BCRYPT);
+		$pass = password_hash($password, PASSWORD_DEFAULT);
 
-		$user = new User(null, $username, $email, $pass);
+		$user = new User(null, $username, $email, $pass, null);
 
 		$this->userRepository->create($user);
 
 		$this->session->setValue('username', $username);
 		$this->session->setValue('email', $email);
 
-		$this->redirect('/login');
+		$this->redirect('login.php');
 	}
 }

@@ -16,6 +16,11 @@ final class LoginController extends BaseController {
 	}
 
 	public function login() {
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+			$this->render();
+			return;
+		}
+
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 
@@ -25,26 +30,23 @@ final class LoginController extends BaseController {
 				'Password' => $password,
 			])
 		) {
-			$this->redirect('/login');
+			$this->redirect('login.php', ['errors' => $this->validator->getErrors()]);
 			return;
 		}
 
 		$user = $this->userRepository->findByEmail($email);
 
-		if (!password_verify($password, $user->getPassword())) {
-			$this->redirect('/login');
-			return;
-		}
-
 		$this->session->setValue('email', $email);
 		$this->session->setValue('username', $user->getUsername());
-		// $this->session->setValue('role', $user->getRole());
+		// After successful login, users should be redirected to their respective dashboards based on their roles. Done here:
+		$this->session->setValue('role', $user->getRole()->value);
 
-		$this->redirect('/dashboard');
+		$this->redirect('index.php');
 	}
 
 	public function logout() {
 		$this->session->destroySession();
-		$this->redirect('/login');
+		$this->redirect('index.php');
+		exit();
 	}
 }
