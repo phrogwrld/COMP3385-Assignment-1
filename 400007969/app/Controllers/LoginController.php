@@ -16,6 +16,11 @@ final class LoginController extends BaseController {
 	}
 
 	public function login() {
+		if ($this->session->hasValue('email') && $this->session->hasValue('username') && $this->session->hasValue('role')) {
+			$this->redirect('index.php');
+			return;
+		}
+
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 			$this->render();
 			return;
