@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\Entity;
+use App\Helpers\Role;
 
 /**
  * A model for a user.
@@ -35,18 +36,27 @@ final class User {
 	private string $password;
 
 	/**
+	 * The user's role.
+	 *
+	 * @var ?Role
+	 */
+	private ?Role $role;
+
+	/**
 	 * Constructs a new user object.
 	 *
 	 * @param int $id The user's ID.
 	 * @param string $username The user's username.
 	 * @param string $email The user's email address.
 	 * @param string $password The user's password.
+	 * @param Role $role The user's role.
 	 */
-	public function __construct(?int $id, string $username, string $email, string $password) {
+	public function __construct(?int $id, string $username, string $email, string $password, ?Role $role) {
 		$this->id = $id;
 		$this->username = $username;
 		$this->email = $email;
 		$this->password = $password;
+		$this->role = $role ?? Role::Researcher;
 	}
 
 	/**
@@ -119,6 +129,26 @@ final class User {
 	}
 
 	/**
+	 * Gets the user's role.
+	 *
+	 * @return Role The user's role.
+	 */
+	public function getRole(): Role {
+		return $this->role;
+	}
+
+	/**
+	 * Sets the user's role.
+	 *
+	 * @param Role $role The user's role.
+	 *
+	 * @return void
+	 */
+	public function setRole(Role $role): void {
+		$this->role = $role;
+	}
+
+	/**
 	 * Converts the user object to an array.
 	 *
 	 * @return array An array containing the user's data.
@@ -129,6 +159,7 @@ final class User {
 			'username' => $this->username,
 			'email' => $this->email,
 			'password' => $this->password,
+			'role' => $this->role,
 		];
 	}
 
@@ -140,6 +171,6 @@ final class User {
 	 * @return User A new user object.
 	 */
 	public static function fromArray(array $data): User {
-		return new User($data['id'], $data['username'], $data['email'], $data['password']);
+		return new User($data['id'], $data['username'], $data['email'], $data['password'], $data['role']);
 	}
 }

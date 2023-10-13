@@ -26,14 +26,15 @@ final class UserRepository implements IRepository {
 		if (!$user instanceof User) {
 			throw new \InvalidArgumentException('The user must be an instance of User.');
 		}
-		$sql = 'INSERT INTO users(username, password, email) VALUES (?, ?, ?) ';
+		$sql = 'INSERT INTO users(username, password, email, role) VALUES (?, ?, ?, ?) ';
 		$stmt = $this->database->getConnection()->prepare($sql);
 
 		$username = $user->getUsername();
 		$email = $user->getEmail();
 		$password = $user->getPassword();
+		$role = $user->getRole();
 
-		$stmt->execute([$username, $password, $email]);
+		$stmt->execute([$username, $password, $email, $role]);
 
 		return $stmt->rowCount() > 0;
 	}
@@ -57,7 +58,7 @@ final class UserRepository implements IRepository {
 			return null;
 		}
 
-		return new User($user['id'], $user['username'], $user['email'], $user['password']);
+		return new User($user['id'], $user['username'], $user['email'], $user['password'], $user['role']);
 	}
 
 	/**
@@ -79,7 +80,7 @@ final class UserRepository implements IRepository {
 			return null;
 		}
 
-		return new User($user['id'], $user['username'], $user['email'], $user['password']);
+		return new User($user['id'], $user['username'], $user['email'], $user['password'], $user['role']);
 	}
 
 	/**
@@ -96,7 +97,7 @@ final class UserRepository implements IRepository {
 		$users = [];
 
 		foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $user) {
-			$users[] = new User($user['id'], $user['username'], $user['email'], $user['password']);
+			$users[] = new User($user['id'], $user['username'], $user['email'], $user['password'], $user['role']);
 		}
 
 		return $users;
@@ -113,15 +114,16 @@ final class UserRepository implements IRepository {
 		if (!$user instanceof User) {
 			throw new \InvalidArgumentException('The user must be an instance of User.');
 		}
-		$sql = 'UPDATE users SET username = ?, password = ?, email = ? WHERE id = ?';
+		$sql = 'UPDATE users SET username = ?, password = ?, email = ?, role = ? WHERE id = ?';
 		$stmt = $this->database->getConnection()->prepare($sql);
 
 		$username = $user->getUsername();
 		$email = $user->getEmail();
 		$password = $user->getPassword();
+		$role = $user->getRole();
 		$id = $user->getId();
 
-		$stmt->execute([$username, $password, $email, $id]);
+		$stmt->execute([$username, $password, $email, $role, $id]);
 
 		return $stmt->rowCount() > 0;
 	}
