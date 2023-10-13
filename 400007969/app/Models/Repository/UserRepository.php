@@ -2,6 +2,7 @@
 
 namespace App\Models\Repository;
 
+use App\Helpers\Role;
 use App\Libs\IRepository;
 use App\Models\Entity\User;
 use App\Service\Database;
@@ -32,7 +33,7 @@ final class UserRepository implements IRepository {
 		$username = $user->getUsername();
 		$email = $user->getEmail();
 		$password = $user->getPassword();
-		$role = $user->getRole();
+		$role = $user->getRole()->value;
 
 		$stmt->execute([$username, $password, $email, $role]);
 
@@ -58,7 +59,7 @@ final class UserRepository implements IRepository {
 			return null;
 		}
 
-		return new User($user['id'], $user['username'], $user['email'], $user['password'], $user['role']);
+		return new User($user['id'], $user['username'], $user['email'], $user['password'], Role::fromString($user['role']));
 	}
 
 	/**
@@ -80,7 +81,7 @@ final class UserRepository implements IRepository {
 			return null;
 		}
 
-		return new User($user['id'], $user['username'], $user['email'], $user['password'], $user['role']);
+		return new User($user['id'], $user['username'], $user['email'], $user['password'], Role::fromString($user['role']));
 	}
 
 	/**
@@ -97,7 +98,13 @@ final class UserRepository implements IRepository {
 		$users = [];
 
 		foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $user) {
-			$users[] = new User($user['id'], $user['username'], $user['email'], $user['password'], $user['role']);
+			$users[] = new User(
+				$user['id'],
+				$user['username'],
+				$user['email'],
+				$user['password'],
+				Role::fromString($user['role']),
+			);
 		}
 
 		return $users;
