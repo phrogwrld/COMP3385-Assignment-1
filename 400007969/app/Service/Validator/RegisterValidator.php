@@ -17,6 +17,10 @@ final class RegisterValidator extends BaseValidator {
 	}
 
 	private function isUniqueUsername($username): bool {
+		if ($this->isEmpty($username)) {
+			$this->errors['Username'] = 'Username cannot be empty.';
+			return false;
+		}
 		$sql = 'SELECT * FROM users WHERE username = ?';
 		$query = $this->database->getConnection()->prepare($sql);
 		$query->execute([$username]);
