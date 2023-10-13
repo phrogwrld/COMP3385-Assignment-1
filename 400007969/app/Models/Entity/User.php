@@ -9,9 +9,9 @@ final class User {
 	/**
 	 * The user's ID.
 	 *
-	 * @var int
+	 * @var ?int
 	 */
-	private int $id;
+	private ?int $id;
 
 	/**
 	 * The user's username.
