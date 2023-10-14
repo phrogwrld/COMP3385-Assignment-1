@@ -10,8 +10,8 @@
 <body>
   <div class="bg-black min-h-screen flex flex-col">
     <div class="fixed flex h-16 w-full text-white p-4 justify-between items-center">
-      <a class="flex items-center" href="/">
-        <img class="w-8 h-8" src="" alt="logo_here">
+      <a class="flex items-center" href="/400007969/index.php">
+        <img class="w-8 h-8" src="./img/logo.svg" alt="logo_here"> ACompany Research
       </a>
       <form id="logoutForm" action="logout.php" method="POST">
         <input type="hidden" name="logout" value="1">
